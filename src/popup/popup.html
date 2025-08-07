@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="stylesheet" href="pico.fluid.classless.min.css" />
+    <script src="showdown.min.js"></script>
+    <script src="popup.js"></script>
+    <title>Summarize AI</title>
+  </head>
+
+  <body>
+    <main>
+      <article>
+        <details id="advanced-options">
+          <summary>Advanced options</summary>
+          <article>
+            <details id="expert-settings">
+              <summary>Expert settings</summary>
+              <form>
+                <fieldset>
+                  <label for="api-url">API url</label>
+                  <input
+                    type="text"
+                    id="api-url"
+                    placeholder="Enter your API url, $GEMINI_API_KEY will be replaced with your API Key"
+                  />
+
+                  <label for="api-key">API Key</label>
+                  <input
+                    type="text"
+                    id="api-key"
+                    placeholder="Enter your API key"
+                  />
+
+                  <label for="prompt-template">Prompt template</label>
+                  <textarea
+                    id="prompt-template"
+                    placeholder="Enter your prompt template, use $TEXT for text that will be included"
+                  ></textarea>
+                </fieldset>
+                <button id="update-settings" type="button">
+                  Update settings
+                </button>
+              </form>
+            </details>
+            <hr />
+            <form>
+              <fieldset>
+                <label for="textarea-input">Input text for prompt</label>
+                <textarea
+                  id="textarea-input"
+                  placeholder="Enter your text..."
+                  readonly
+                ></textarea>
+              </fieldset>
+            </form>
+          </article>
+        </details>
+      </article>
+
+      <article id="html-output"></article>
+    </main>
+  </body>
+</html>
