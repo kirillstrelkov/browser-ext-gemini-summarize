@@ -1,18 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
-  chrome.storage.local.get("selectedText", (data) => {
-    setTextById("textarea-input", data.selectedText);
+  chrome.runtime.sendMessage({ type: "GET_TEXT_TO_SUMMARIZE" }, (response) => {
+    if (response && response.selectedText) {
+      const selectedText = response.selectedText;
+      setTextById("textarea-input", selectedText);
+      summarize(selectedText);
+    } else {
+      setHtmlById(
+        "html-output",
+        "<p>Error: Could not retrieve text to summarize.</p>",
+      );
+    }
   });
 
   document
     .getElementById("update-settings")
     .addEventListener("click", updateSettingsAndReload);
-
-  summarize();
 });
 
-function summarize() {
+function summarize(selectedText) {
   setHtmlById("html-output", "<p>Waiting for output...</p><progress />");
-  processRequest();
+  processRequest(selectedText);
 }
 
 function setHtmlById(id, html) {
@@ -29,7 +36,7 @@ function setTextById(id, text) {
   }
 }
 
-function processRequest() {
+function processRequest(selectedText) {
   const settings = {
     API_KEY: null,
     API_URL:
@@ -38,13 +45,7 @@ function processRequest() {
       "Summarize the following text in as short and concise a manner as possible, retaining all key information.\n\n```\n$TEXT\n```\n\nUse markdown as output format.",
   };
 
-  chrome.storage.local.get(["selectedText", "settings"], (data) => {
-    const selectedText = data.selectedText;
-    if (!selectedText) {
-      alert("No text selected. Please select some text to summarize.");
-      return;
-    }
-
+  chrome.storage.local.get(["settings"], (data) => {
     if (data.settings) {
       settings.API_KEY = data.settings.API_KEY;
       settings.API_URL = data.settings.API_URL;
@@ -85,9 +86,9 @@ function processRequest() {
           const contentHtml = converter.makeHtml(text);
           setHtmlById("html-output", contentHtml);
         } else {
-          setTextById(
-            "textarea-output",
-            "Error fetching data: " + data.error.message,
+          setHtmlById(
+            "html-output",
+            `<p>Error fetching data: ${data?.error?.message}</p>`,
           );
         }
       });
@@ -174,7 +175,8 @@ function updateSettingsAndReload(e) {
 
   updateSettings();
   closeAdvancedOptions();
-  summarize();
+  const selectedText = document.getElementById("textarea-input").value;
+  summarize(selectedText);
 }
 
 function closeAdvancedOptions() {

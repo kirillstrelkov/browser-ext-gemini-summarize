@@ -1,3 +1,5 @@
+let selectedTextForPopup = "";
+
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "rcm-summarize",
@@ -9,14 +11,26 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.contextMenus.onClicked.addListener((info) => {
   if (info.menuItemId === "rcm-summarize") {
     if (info.selectionText) {
-      chrome.storage.local.set({ selectedText: info.selectionText }, () => {
-        chrome.windows.create({
-          url: chrome.runtime.getURL("src/popup/popup.html"),
-          type: "popup",
-          width: 800,
-          height: 800,
-        });
+      selectedTextForPopup = info.selectionText;
+      chrome.windows.create({
+        url: chrome.runtime.getURL("src/popup/popup.html"),
+        type: "popup",
+        width: 800,
+        height: 800,
+      });
+    } else {
+      chrome.notifications.create({
+        type: "basic",
+        iconUrl: "icons/icon-128.png",
+        title: "No text selected",
+        message: "Please select some text to summarize.",
       });
     }
+  }
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.type === "GET_TEXT_TO_SUMMARIZE") {
+    sendResponse({ selectedText: selectedTextForPopup });
   }
 });
