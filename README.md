@@ -1,6 +1,6 @@
-# Firefox Extension: Gemini Summarize
+# Browser Extension: Gemini Summarize
 
-This project is a Firefox extension that uses the Gemini API to summarize selected text from web pages and renders the result as Markdown.
+This project is a Browser extension that uses the Gemini API to summarize selected text from web pages and renders the result as Markdown.
 
 ## Features
 
@@ -16,7 +16,7 @@ This project is a Firefox extension that uses the Gemini API to summarize select
 ## Project Structure
 
 ```bash
-firefox-extension
+browser-ext-gemini-summarize
 ├── dist/                    # Packaged extension files
 ├── icons/                   # Extension icons
 ├── src
@@ -33,12 +33,20 @@ firefox-extension
 └── README.md                # This file
 ```
 
-## Installation
+## Installation Firefox
 
 1. Clone the repository or download the source code.
 2. Open Firefox and go to `about:debugging`.
 3. Click "This Firefox" > "Load Temporary Add-on".
 4. Select the `manifest.json` file from the project directory.
+
+## Installation Chrome
+
+1. Clone the repository or download the source code.
+2. Open Chrome and go to `chrome://extensions`.
+3. Enable "Developer mode" in the top right corner.
+4. Click "Load unpacked".
+5. Select the project directory.
 
 ## Usage
 
