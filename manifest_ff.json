@@ -1,18 +1,18 @@
 {
   "manifest_version": 3,
   "name": "Summarize with Gemini",
-  "version": "1.0",
+  "version": "1.1.0",
   "description": "Browser extension that uses Gemini API to summarize text.",
-  "permissions": ["contextMenus", "activeTab", "storage"],
+  "permissions": [
+    "contextMenus",
+    "activeTab",
+    "storage",
+    "scripting",
+    "notifications"
+  ],
   "background": {
     "scripts": ["src/background.js"]
   },
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["src/content.js"]
-    }
-  ],
   "action": {
     "default_popup": "src/popup/popup.html",
     "default_icon": {

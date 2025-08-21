@@ -1,4 +1,4 @@
-# Browser Extension: Gemini Summarize
+# Browser Extension: Summarize with AI
 
 This project is a Browser extension that uses the Gemini API to summarize selected text from web pages and renders the result as Markdown.
 
@@ -16,21 +16,19 @@ This project is a Browser extension that uses the Gemini API to summarize select
 ## Project Structure
 
 ```bash
-browser-ext-gemini-summarize
-├── dist/                    # Packaged extension files
-├── icons/                   # Extension icons
-├── src
-│   ├── background.js        # Handles context menu and opening the popup
-│   ├── content.js           # (Currently unused)
-│   └── popup
-│       ├── popup.html       # Popup UI
-│       ├── popup.js         # Popup logic, settings, and API requests
-│       ├── pico.fluid.classless.min.css # Pico.css stylesheet
-│       └── showdown.min.js  # Showdown.js library
-├── .eslint.config.mjs       # ESLint configuration
-├── manifest.json            # Extension manifest
-├── package.json             # Node.js dependencies and scripts
-└── README.md                # This file
+browser-ext-gemini-summarize/
+├── icons/                     # Extension icons
+├── src/
+│   ├── background.js          # Handles context menu and opening the popup
+│   └── popup/
+│       ├── popup.html         # Popup UI
+│       ├── popup.js           # Popup logic, settings, and API requests
+│       ├── ...                # CSS and JS libraries
+├── .eslint.config.mjs         # ESLint configuration
+├── manifest_gc.json           # Manifest for Google Chrome
+├── manifest_ff.json           # Manifest for Firefox
+├── package.json               # Node.js dependencies and scripts
+└── README.md                  # This file
 ```
 
 ## Installation Firefox
@@ -51,16 +49,45 @@ browser-ext-gemini-summarize
 ## Usage
 
 - Right-click selected text to access the extension's context menu.
-- Choose "Summarize" to open the popup window.
+- Alternatively, right-click anywhere on the page to automatically find and summarize the main content.
+- Choose "Summarize with AI" to open the popup window.
 - The popup displays input/output areas and advanced settings.
 
 ## Development
 
-- Run `npm install` to install dependencies.
-- Use `npm run lint` to check code style with ESLint.
-- Use `npm run zip` to create a distributable `.zip` file in the `dist/` directory.
-- Use `npm run clean` to remove generated files (`dist/` and `node_modules/`).
-- Use `npm run fmt` to format the code with Prettier.
+### Local Setup
+
+1. **Clone and Install Dependencies**
+
+   ```bash
+   git clone <repository-url>
+   cd browser-ext-gemini-summarize
+   npm install
+   ```
+
+2. **Prepare Manifest for Development**
+   The project uses different manifest files for Chrome and Firefox. Run the appropriate command to create the `manifest.json` file for your development browser.
+   - For **Chrome**: `npm run make:gc`
+   - For **Firefox**: `npm run make:ff`
+
+3. **Load the Extension**
+   Follow the instructions in the "Installation" section to load the unpacked extension into your browser.
+
+### Available Scripts
+
+- **Code Quality**
+  - `npm run lint`: Check code style with ESLint.
+  - `npm run fmt`: Format the code with Prettier.
+
+- **Building for Release**
+  To create distributable `.zip` files for both browsers in the `dist/` directory, run:
+
+  ```bash
+  npm run release
+  ```
+
+- **Cleanup**
+  - `npm run clean`: Removes the `dist/` directory, `node_modules/`, and the generated `manifest.json`.
 
 ## Contributing
 

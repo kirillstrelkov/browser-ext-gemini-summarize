@@ -1,14 +1,19 @@
 {
-  "name": "ff-ext-gemini-summarize",
+  "name": "browser-ext-gemini-summarize",
   "version": "1.1.0",
   "description": "This project is a Browser extension that uses Gemini API to summarize text.",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf dist && rm -rf node_modules",
+    "clean": "rm -rf dist && rm -rf node_modules && rm -f ./manifest.json",
     "fmt": "npx prettier --write .",
     "lint": "npx eslint .",
-    "zip": "mkdir -p dist && zip -r dist/ff-ext-gemini-summarize.zip icons manifest.json src",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dist:ff:prepare": "rm -rf dist/ff-ext-gemini-summarize && mkdir -p dist/ff-ext-gemini-summarize && cp -r icons dist/ff-ext-gemini-summarize && cp -r src dist/ff-ext-gemini-summarize && cp manifest_ff.json  dist/ff-ext-gemini-summarize/manifest.json",
+    "dist:gc:prepare": "rm -rf dist/gc-ext-gemini-summarize && mkdir -p dist/gc-ext-gemini-summarize && cp -r icons dist/gc-ext-gemini-summarize && cp -r src dist/gc-ext-gemini-summarize && cp manifest_gc.json  dist/gc-ext-gemini-summarize/manifest.json",
+    "dist:ff:zip": "npm run dist:ff:prepare && cd dist/ff-ext-gemini-summarize && zip -r ../ff-ext-gemini-summarize.zip icons manifest.json src && cd ../..",
+    "dist:gc:zip": "npm run dist:gc:prepare && cd dist/gc-ext-gemini-summarize && zip -r ../gc-ext-gemini-summarize.zip icons manifest.json src && cd ../..",
+    "release": "npm run clean && npm run dist:ff:zip && npm run dist:gc:zip",
+    "make:ff": "rm -f ./manifest.json && cp manifest_ff.json manifest.json",
+    "make:gc": "rm -f ./manifest.json && cp manifest_gc.json manifest.json"
   },
   "author": "",
   "license": "MIT",

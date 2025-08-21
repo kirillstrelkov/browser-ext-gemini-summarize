@@ -79,7 +79,6 @@ function processRequest(selectedText) {
         return response.json();
       })
       .then((data) => {
-        console.log("Response from API:", data);
         if (data.candidates) {
           var converter = new showdown.Converter();
           const text = data.candidates[0].content.parts[0].text || data.message;
